@@ -50,6 +50,30 @@ def key(context):
     pass
 
 
+@cli.group()
+@click.pass_context
+def certificate(context):
+    pass
+
+
+@certificate.command(help='Receive a public key certificate from a key server')
+@click.option('--key-server', default='pgp.mit.edu')
+@click.argument('key_id')
+@click.pass_context
+def get(context, key_server, key_id):
+    gpg('--keyserver {} --recv-key {}'.format(key_server, key_id),
+        verbose=context.obj['verbose'])
+
+
+@certificate.command(help='Send a public key certificate to a server')
+@click.option('--key-server', default='pgp.mit.edu')
+@click.argument('key_id')
+@click.pass_context
+def send(context, key_server, key_id):
+    gpg('--keyserver {} --send-key {}'.format(key_server, key_id),
+        verbose=context.obj['verbose'])
+
+
 @key.command(help='Create a new PGP key pair')
 @click.pass_context
 def create(context):

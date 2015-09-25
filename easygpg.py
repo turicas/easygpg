@@ -101,10 +101,17 @@ def fingerprint(context, key_id):
     gpg('--fingerprint {}'.format(key_id), verbose=context.obj['verbose'])
 
 
-@cli.command(help='Sign a file or key with your private key')
+@cli.group(help='Sign a file or key with your private key')
 @click.pass_context
 def sign(context):
     pass
+
+
+@sign.command(help='Sign a public key')
+@click.argument('key_id')
+@click.pass_context
+def key(context, key_id):
+    gpg('--sign-key {}'.format(key_id), verbose=context.obj['verbose'])
 
 
 if __name__ == '__main__':

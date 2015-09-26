@@ -74,6 +74,30 @@ def send(context, key_server, key_id):
         verbose=context.obj['verbose'])
 
 
+@certificate.command(help='Refresh the list of local certificates')
+@click.option('--key-server', default='pgp.mit.edu')
+@click.option('--key_id')
+@click.pass_context
+def refresh(context, key_server, key_id):
+    if key_id is not None:
+       gpg('--keyserver {} --recv-key {}'.format(key_server, key_id),
+           verbose=context.obj['verbose'])
+    else:
+       gpg('--keyserver {} --refresh-keys'.format(key_server),
+           verbose=context.obj['verbose'])
+
+
+@certificate.command(name='list',
+                     help='List public key signatures (certificates)')
+@click.argument('key_id', required=False)
+@click.pass_context
+def list_(context, key_id):
+    if key_id is None:
+        gpg('--list-sigs', verbose=context.obj['verbose'])
+    else:
+        gpg('--list-sigs {}'.format(key_id), verbose=context.obj['verbose'])
+
+
 @key.command(help='Create a new PGP key pair')
 @click.pass_context
 def create(context):

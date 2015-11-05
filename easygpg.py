@@ -138,5 +138,24 @@ def key(context, key_id):
     gpg('--sign-key {}'.format(key_id), verbose=context.obj['verbose'])
 
 
+@cli.command(help='Encrypt a file')
+@click.argument('destination_key_id')
+@click.argument('filename')
+@click.pass_context
+def encrypt(context, destination_key_id, filename):
+    destination_key_id = ' '.join(['-r {}'.format(value.strip())
+                                   for value in destination_key_id.split(',')
+                                   if value.strip()])
+    gpg('--armor {} --encrypt {}'.format(destination_key_id, filename),
+        verbose=context.obj['verbose'])
+
+
+@cli.command(help='Decrypt a file')
+@click.argument('filename')
+@click.pass_context
+def decrypt(context, filename):
+    gpg('--decrypt {}'.format(filename), verbose=context.obj['verbose'])
+
+
 if __name__ == '__main__':
     cli()

@@ -15,6 +15,11 @@ GnuPG command-line interface is pretty hard to use. Install easygpg and be
 happy.
 
 
+## Related Projects
+
+- [python-gnupg](https://github.com/isislovecruft/python-gnupg) by Isis
+  Lovecruft (may use this library in the future)
+
 ## Semantic Versioning
 
 This library uses [semantic versioning](http://semver.org). Note that it means
